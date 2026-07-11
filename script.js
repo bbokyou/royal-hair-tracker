@@ -111,10 +111,6 @@ const lowestItemCount = targetItems.filter(item =>
     item.auction_price_per_unit === lowestItem.auction_price_per_unit
 ).length;
 
-console.log("최저가:", lowestItem.auction_price_per_unit);
-console.log("최저가 매물 수:", lowestItemCount);
-console.log(targetItems);
-
 document.getElementById("lowest-count").textContent =
     lowestItemCount;
 
@@ -123,9 +119,6 @@ const status = document.getElementById("price-status");
 
 const currentPrice = Number(lowestItem.auction_price_per_unit);
 const previousPrice = Number(savedPrice);
-
-console.log("이전", previousPrice);
-console.log("현재", currentPrice);
 
 // 현재 가격 상태 표시
 if (!savedPrice) {
@@ -160,8 +153,6 @@ if (!savedPrice || currentPrice !== previousPrice) {
         "firstSeenTime",
         new Date().toISOString()
     );
-
-    console.log("최초 발견시간 갱신!");
 
 }
 
