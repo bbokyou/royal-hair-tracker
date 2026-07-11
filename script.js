@@ -109,6 +109,20 @@ console.table(
     item.item_display_name === "로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)"
 );
 
+
+const cheapItems = targetItems.filter(
+    item => item.auction_price_per_unit === 110000000
+);
+
+console.log("1.1억 개수:", cheapItems.length);
+
+console.table(
+    cheapItems.map(item => ({
+        가격: item.auction_price_per_unit,
+        만료시간: item.date_auction_expire
+    }))
+);
+
 console.log("여성용 개수:", targetItems.length);
 
 console.table(
