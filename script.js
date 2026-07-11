@@ -1,6 +1,9 @@
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
 const audio = new Audio("money.mp3");
+
+const AUTO_REFRESH_TIME = 10 * 60 * 1000; // 10분
+
 let soundEnabled = false;
 document.getElementById("enable-sound").addEventListener("click", async () => {
 
@@ -19,6 +22,7 @@ console.log("🔔최저가 알림 소리 켜기");
     }
 
 });
+
 const BASE_URL =
   "https://open.api.nexon.com/mabinogi/v1/auction/keyword-search?keyword=" +
   encodeURIComponent("로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)");
@@ -28,6 +32,10 @@ const BASE_URL =
 }
 
 async function loadAuction() {
+
+        document.getElementById("last-update").textContent =
+        "🟡 조회 중임다...";
+        
     try {
 
  
@@ -48,6 +56,10 @@ if (targetItems.length === 0) {
     document.getElementById("lowest-price").textContent = "아니 이럴수가?";
     document.getElementById("item-count").textContent = "0";
     document.getElementById("lowest-count").textContent = "매물이 없네...";
+
+    document.getElementById("last-update").textContent =
+        "🟢 마지막 조회 : " + new Date().toLocaleTimeString("ko-KR");
+        
     return;
 }
 
@@ -147,15 +159,21 @@ const firstSeenTime = localStorage.getItem("firstSeenTime");
 
 document.getElementById("first-seen").textContent =
     new Date(firstSeenTime).toLocaleString("ko-KR");
+    document.getElementById("last-update").textContent =
+    "🟢 마지막 조회 : " + new Date().toLocaleTimeString("ko-KR");
 
     }
 
 
     catch (error) {
+
     console.error(error);
 
     document.getElementById("lowest-price").textContent =
         "불러오기 실패";
+
+    document.getElementById("last-update").textContent =
+        "🔴 이런! 조회 실패ㅠㅠ";
 }
 }
 function updateBestPrice(currentPrice) {
@@ -344,3 +362,5 @@ updateTodayRange();
 
 updateDuration();
 setInterval(updateDuration, 1000);
+
+setInterval(loadAuction, AUTO_REFRESH_TIME);

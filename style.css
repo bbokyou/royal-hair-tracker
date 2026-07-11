@@ -235,3 +235,13 @@ body {
     font-weight:bold;
     margin-bottom:10px;
 }
+
+.header-last-update{
+
+    margin-top:8px;
+
+    font-size:14px;
+
+    color:#777;
+
+}
