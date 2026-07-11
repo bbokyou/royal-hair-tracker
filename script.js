@@ -50,7 +50,7 @@ if (true)
             lowestItem.auction_price_per_unit.toLocaleString() +
             " Gold"
     });
-const audio = new Audio("money.wav");
+const audio = new Audio("money.mp3");
 audio.play().catch(() => {
     console.log("아닛! 브라우저가 내 입을 막아버렸어!.");
 });
