@@ -193,43 +193,42 @@ function renderPriceHistory() {
     container.innerHTML = "";
 
     [...history]
-    .reverse()
-    .slice(0, 20)
-    .forEach((item, index, array) => {
+        .reverse()
+        .slice(0, 20)
+        .forEach((item, index, array) => {
 
-        let icon = "🟰";
+            let icon = "🟰";
 
-if (index < array.length - 1) {
+            if (index < array.length - 1) {
 
-    if (item.price < array[index + 1].price) {
-        icon = "🔻";
-    }
-    else if (item.price > array[index + 1].price) {
-        icon = "🔺";
-    }
+                if (item.price < array[index + 1].price)
+                    icon = "🔻";
+
+                else if (item.price > array[index + 1].price)
+                    icon = "🔺";
+            }
+
+            const div = document.createElement("div");
+
+            div.className = "history-item";
+
+            div.innerHTML = `
+                <div class="history-price">
+                    ${icon} ${formatGold(item.price)}
+                </div>
+
+                <div class="history-time">
+                    🕒 ${new Date(item.time).toLocaleString("ko-KR")}
+                </div>
+            `;
+
+            container.appendChild(div);
+
+        });
 
 }
 
-        const div = document.createElement("div");
-
-div.className = "history-item";
-
-div.innerHTML = `
-    <div class="history-price">
-        ${icon} ${formatGold(item.price)}
-    </div>
-
-    <div class="history-time">
-        🕒 ${new Date(item.time).toLocaleString("ko-KR")}
-    </div>
-`;
-
-container.appendChild(div);
-    });
-
-}
-function updateDuration() {
-    function updateTodayRange() {
+function updateTodayRange() {
 
     const history =
         JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
@@ -265,8 +264,10 @@ function updateDuration() {
         📊 변동폭 ${formatGold(diff)}
     `;
 
-}
+     
 
+}
+function updateDuration() {
     const firstSeenTime = localStorage.getItem("firstSeenTime");
 
     if (!firstSeenTime) {
