@@ -3,6 +3,7 @@ const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0
 const url =
   "https://open.api.nexon.com/mabinogi/v1/auction/list?auction_item_category=뷰티 쿠폰";
 
+
 async function loadAuction() {
     try {
         const response = await fetch(url, {
@@ -17,6 +18,8 @@ async function loadAuction() {
         const data = await response.json();
 
         console.log(data);
+
+        console.log("다음 커서:", data.next_cursor);
 
         console.table(data.auction_item.map(item => item.item_display_name));
 
