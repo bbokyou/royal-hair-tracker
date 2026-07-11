@@ -101,6 +101,8 @@ document.getElementById("lowest-price").textContent =
 
     savePriceHistory(lowestItem.auction_price_per_unit);
 
+    renderPriceHistory();
+
     localStorage.setItem(
     "lastLowestPrice",
     lowestItem.auction_price_per_unit
@@ -141,6 +143,52 @@ function savePriceHistory(price) {
         PRICE_LOG_KEY,
         JSON.stringify(history)
     );
+}
+
+function renderPriceHistory() {
+
+    const history =
+        JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
+
+    const container = document.getElementById("price-history");
+
+    if (history.length === 0) {
+        container.textContent = "아직 기록이 없습니다.";
+        return;
+    }
+
+    container.innerHTML = "";
+
+    [...history]
+    .reverse()
+    .slice(0, 20)
+    .forEach((item, index, array) => {
+
+        let icon = "🟰";
+
+if (index < array.length - 1) {
+
+    if (item.price < array[index + 1].price) {
+        icon = "🔻";
+    }
+    else if (item.price > array[index + 1].price) {
+        icon = "🔺";
+    }
+
+}
+
+        const div = document.createElement("div");
+
+        div.innerHTML = `
+            <strong>${icon} ${item.price.toLocaleString()} Gold</strong><br>
+            ${new Date(item.time).toLocaleString("ko-KR")}
+            <hr>
+        `;
+
+        container.appendChild(div);
+
+    });
+
 }
 function updateDuration() {
 
