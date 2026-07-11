@@ -1,5 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+import {
+    getFirestore,
+    collection,
+    addDoc
+} from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDkZU4AOkAPmIQVx7L0vg1w3X3jRBFaMYg",
   authDomain: "bokkyou.firebaseapp.com",
@@ -11,6 +15,29 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+
+async function testFirestore() {
+
+    try {
+
+        const docRef = await addDoc(
+            collection(db, "test"),
+            {
+                text: "안녕하세요!",
+                time: new Date().toISOString()
+            }
+        );
+
+        console.log("저장 성공!", docRef.id);
+
+    } catch (e) {
+
+        console.error("저장 실패!", e);
+
+    }
+
+}
+
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
 const audio = new Audio("assets/money.mp3");
@@ -443,6 +470,9 @@ function formatGold(price) {
     return `${price.toLocaleString()} Gold`;
 
 }
+
+testFirestore();
+
 loadAuction();
 
 refreshBtn.addEventListener("click", loadAuction);
