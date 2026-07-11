@@ -1,5 +1,20 @@
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
+const audio = new Audio("money.mp3");
 
+document.addEventListener(
+    "click",
+    async () => {
+        try {
+            await audio.play();
+            audio.pause();
+            audio.currentTime = 0;
+            console.log("🔔 알림 활성화!");
+        } catch (e) {
+            console.log(e);
+        }
+    },
+    { once: true }
+);
 const BASE_URL =
   "https://open.api.nexon.com/mabinogi/v1/auction/keyword-search?keyword=" +
   encodeURIComponent("로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)");
@@ -42,24 +57,26 @@ const lowestItem = targetItems.reduce((lowest, item) => {
 const savedPrice = localStorage.getItem("lastLowestPrice");
 
 if (true)
-    {
-    new Notification("👍최저가가 갱신되었다요!👍", {
-        body:
-            savedPrice.toLocaleString() +
-            " → " +
-            lowestItem.auction_price_per_unit.toLocaleString() +
-            " Gold"
-    });
-const audio = new Audio("money.mp3");
-audio.play().catch(() => {
-    console.log("아닛! 브라우저가 내 입을 막아버렸어!.");
-});
+{
+    if (Notification.permission === "granted") {
+
+        new Notification("👍최저가가 갱신되었다요!👍", {
+            body:
+                savedPrice.toLocaleString() +
+                " → " +
+                lowestItem.auction_price_per_unit.toLocaleString() +
+                " Gold"
+        });
+
+    }
+
+    audio.currentTime = 0;
+    audio.play().catch(console.error);
 
     localStorage.setItem(
         "firstSeenTime",
         new Date().toISOString()
     );
-
 }
 
 document.getElementById("lowest-price").textContent =
