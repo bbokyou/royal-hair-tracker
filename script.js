@@ -4,11 +4,11 @@ const audio = new Audio("money.mp3");
 document.getElementById("enable-sound").addEventListener("click", async () => {
 
     try {
-        await audio.play();
-        audio.pause();
-        audio.currentTime = 0;
 
-        console.log("🔔 알림 활성화!");
+        audio.currentTime = 0;
+        await audio.play();
+
+        console.log("🔔 소리 재생 성공!");
 
     } catch (e) {
         console.error(e);
