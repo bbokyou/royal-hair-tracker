@@ -4,11 +4,20 @@ body {
     margin: 30px;
 }
 .header {
+
     display: flex;
     align-items: center;
     gap: 30px;
 
-    margin-bottom: 30px;
+    max-width: 850px;
+    margin: 0 auto 25px auto;
+
+    padding: 20px 25px;
+
+    background: #fafafa;
+    border: 1px solid #dddddd;
+    border-radius: 12px;
+
 }
 
 #header-character {
