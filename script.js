@@ -4,6 +4,9 @@ const BASE_URL =
   "https://open.api.nexon.com/mabinogi/v1/auction/keyword-search?keyword=" +
   encodeURIComponent("로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)");
 
+  if ("Notification" in window) {
+    Notification.requestPermission();
+}
 
 async function loadAuction() {
     try {
@@ -38,12 +41,19 @@ const lowestItem = targetItems.reduce((lowest, item) => {
 
 const savedPrice = localStorage.getItem("lastLowestPrice");
 
-if (savedPrice != lowestItem.auction_price_per_unit) {
-
-    localStorage.setItem(
-        "lastLowestPrice",
-        lowestItem.auction_price_per_unit
-    );
+if (true)
+    {
+    new Notification("👍최저가가 갱신되었다요!👍", {
+        body:
+            savedPrice.toLocaleString() +
+            " → " +
+            lowestItem.auction_price_per_unit.toLocaleString() +
+            " Gold"
+    });
+const audio = new Audio("money.wav");
+audio.play().catch(() => {
+    console.log("아닛! 브라우저가 내 입을 막아버렸어!.");
+});
 
     localStorage.setItem(
         "firstSeenTime",
@@ -54,6 +64,11 @@ if (savedPrice != lowestItem.auction_price_per_unit) {
 
 document.getElementById("lowest-price").textContent =
     lowestItem.auction_price_per_unit.toLocaleString() + " Gold";
+
+    localStorage.setItem(
+    "lastLowestPrice",
+    lowestItem.auction_price_per_unit
+);
 
 const firstSeenTime = localStorage.getItem("firstSeenTime");
 
@@ -89,6 +104,10 @@ function updateDuration() {
     const days = Math.floor(diffMinutes / 1440);
     const hours = Math.floor((diffMinutes % 1440) / 60);
     const minutes = diffMinutes % 60;
+        document.getElementById("duration").textContent =
+        `${days}일 ${hours}시간 ${minutes}분`;
 
 }
 loadAuction();
+updateDuration();
+setInterval(updateDuration, 1000);
