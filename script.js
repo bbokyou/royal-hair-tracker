@@ -252,6 +252,28 @@ const bestPrice = Math.min(
 document.getElementById("best-price").textContent =
     formatGold(bestPrice);
 
+    const currentPrice = history[history.length - 1].price;
+
+const diff = currentPrice - bestPrice;
+
+const diffText = document.getElementById("best-price-diff");
+
+if (diff === 0) {
+
+    diffText.textContent = "🎉 와 겁나 싸다!";
+    diffText.style.color = "#2e7d32";
+
+
+}
+else {
+
+    diffText.textContent =
+    `▲ ${formatGold(diff)}`;
+
+        diffText.style.color = "#d32f2f";
+
+}
+
 }
 function savePriceHistory(price) {
     const history =

@@ -289,3 +289,43 @@ body {
     cursor:not-allowed;
 
 }
+
+.best-price-box{
+
+    margin-top:20px;
+
+    padding-top:18px;
+
+    border-top:1px solid #dddddd;
+
+}
+
+.best-price-title{
+
+    font-size:18px;
+
+    color:#666;
+
+}
+
+.best-price-value{
+
+    margin-top:8px;
+
+    font-size:28px;
+
+    font-weight:bold;
+
+    color:#2e7d32;
+
+}
+
+.best-price-diff{
+
+    margin-top:6px;
+
+    font-size:15px;
+
+    color:#666;
+
+}
