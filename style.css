@@ -47,12 +47,14 @@ body {
     background: #f7f7f7;
 
     border: 1px solid #dddddd;
- border-radius: 12px;
 
-    padding: 25px;
+    border-radius: 12px;
 
-    margin-top: 20px;
-    margin-bottom: 25px;
+    padding: 18px 25px;
+
+    max-width: 850px;
+
+    margin: 20px auto 25px auto;
 
     text-align: center;
 }
@@ -69,7 +71,7 @@ body {
 
 .price-value {
 
-    font-size: 42px;
+    font-size: 36px;
 
     font-weight: bold;
 
@@ -79,7 +81,7 @@ body {
 
 .price-status {
 
-    margin-top: 15px;
+    margin-top: 8px;
 
     font-size: 18px;
 
@@ -96,7 +98,9 @@ body {
 
     padding: 20px;
 
-    margin-bottom: 25px;
+    max-width: 850px;
+
+    margin: 0 auto 25px auto;
 
 }
 
@@ -119,7 +123,9 @@ body {
 }
 .button-area {
 
-    margin-bottom: 30px;
+    max-width:850px;
+
+    margin:0 auto 30px auto;
 
 }
 
@@ -146,5 +152,80 @@ body {
 #enable-sound:hover {
 
     background: #43a047;
+
+}
+.history-card {
+
+    background: #fafafa;
+
+    border: 1px solid #dddddd;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    max-width: 850px;
+
+    margin: 0 auto 30px auto;
+
+}
+
+.history-title {
+
+    font-size: 20px;
+
+    font-weight: bold;
+
+    margin-bottom: 15px;
+
+}
+
+#price-history {
+
+    max-height: 350px;
+
+    overflow-y: auto;
+
+}
+.history-item {
+
+    padding: 15px 0;
+
+}
+
+.history-item:not(:last-child) {
+
+    border-bottom: 1px solid #eeeeee;
+
+}
+
+.history-price {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+}
+
+.history-time {
+
+    margin-top: 6px;
+
+    color: #777;
+
+    font-size: 14px;
+
+}
+.today-range {
+
+    margin-top: 18px;
+
+    padding-top: 15px;
+
+    border-top: 1px solid #dddddd;
+
+    line-height: 1.8;
+
+    color: #555;
 
 }

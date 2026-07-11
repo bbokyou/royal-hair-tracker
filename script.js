@@ -132,9 +132,11 @@ document.getElementById("lowest-price").textContent =
 
     savePriceHistory(lowestItem.auction_price_per_unit);
 
-    renderPriceHistory();
+renderPriceHistory();
 
-    localStorage.setItem(
+updateTodayRange();
+
+localStorage.setItem(
     "lastLowestPrice",
     lowestItem.auction_price_per_unit
 );
@@ -210,18 +212,60 @@ if (index < array.length - 1) {
 
         const div = document.createElement("div");
 
-        div.innerHTML = `
-           <strong>${icon} ${formatGold(item.price)}</strong><br>
-            ${new Date(item.time).toLocaleString("ko-KR")}
-            <hr>
-        `;
+div.className = "history-item";
 
-        container.appendChild(div);
+div.innerHTML = `
+    <div class="history-price">
+        ${icon} ${formatGold(item.price)}
+    </div>
 
+    <div class="history-time">
+        🕒 ${new Date(item.time).toLocaleString("ko-KR")}
+    </div>
+`;
+
+container.appendChild(div);
     });
 
 }
 function updateDuration() {
+    function updateTodayRange() {
+
+    const history =
+        JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
+
+    const today = new Date().toDateString();
+
+    const todayHistory = history.filter(item =>
+        new Date(item.time).toDateString() === today
+    );
+
+    const container = document.getElementById("today-range");
+
+    if (todayHistory.length === 0) {
+
+        container.textContent = "오늘 기록이 없습니다.";
+
+        return;
+
+    }
+
+    const prices = todayHistory.map(item => item.price);
+
+    const maxPrice = Math.max(...prices);
+
+    const minPrice = Math.min(...prices);
+
+    const diff = maxPrice - minPrice;
+
+    container.innerHTML = `
+        📈 오늘의 시세!<br>
+        🔺 최고 ${formatGold(maxPrice)}<br>
+        🔻 최저 ${formatGold(minPrice)}<br>
+        📊 변동폭 ${formatGold(diff)}
+    `;
+
+}
 
     const firstSeenTime = localStorage.getItem("firstSeenTime");
 
@@ -268,5 +312,8 @@ function formatGold(price) {
 
 }
 loadAuction();
+
+updateTodayRange();
+
 updateDuration();
 setInterval(updateDuration, 1000);
