@@ -239,6 +239,10 @@ function updateBestPrice(currentPrice) {
     const savedBest =
         localStorage.getItem("bestPrice");
 
+        console.log("===== 역대 최저가 검사 =====");
+console.log("저장된 역대 최저:", savedBest);
+console.log("현재 가격:", currentPrice);
+
     if (
         !savedBest ||
         currentPrice < Number(savedBest)
@@ -250,8 +254,6 @@ function updateBestPrice(currentPrice) {
         );
 
     }
-
-
 
     document.getElementById("best-price").textContent =
         formatGold(
