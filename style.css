@@ -131,21 +131,23 @@ body {
 
 #enable-sound {
 
-    background: #4caf50;
+    background:#4caf50;
 
-    color: white;
+    color:white;
 
-    border: none;
+    border:none;
 
-    border-radius: 8px;
+    border-radius:6px;
 
-    padding: 6px 12px;
+    padding:4px 10px;
 
-    font-size: 12px;
+    min-width:90px;
 
-    cursor: pointer;
+    font-size:12px;
 
-    transition: 0.2s;
+    cursor:pointer;
+
+    transition:.2s;
 
 }
 
@@ -263,6 +265,8 @@ body {
     border-radius:6px;
 
     padding:4px 10px;
+
+    min-width: 90px;
 
     font-size:12px;
 
