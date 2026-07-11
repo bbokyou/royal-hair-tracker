@@ -24,7 +24,6 @@ soundBtn.addEventListener("click", async () => {
 
             audio.currentTime = 0;
             await audio.play();
-
             audio.pause();
             audio.currentTime = 0;
 
@@ -193,11 +192,11 @@ if (
 document.getElementById("lowest-price").textContent =
     formatGold(lowestItem.auction_price_per_unit);
 
-    updateBestPrice(lowestItem.auction_price_per_unit);
-
     savePriceHistory(lowestItem.auction_price_per_unit);
 
-renderPriceHistory();
+    updateBestPrice();
+
+    renderPriceHistory();
 
 updateTodayRange();
 
@@ -234,31 +233,24 @@ refreshBtn.textContent = "🔄 지금 조회";
 
 }
 }
-function updateBestPrice(currentPrice) {
+function updateBestPrice() {
 
-    const savedBest =
-        localStorage.getItem("bestPrice");
+    const history =
+    JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
 
-        console.log("===== 역대 최저가 검사 =====");
-console.log("저장된 역대 최저:", savedBest);
-console.log("현재 가격:", currentPrice);
+    if (history.length === 0) {
 
-    if (
-        !savedBest ||
-        currentPrice < Number(savedBest)
-    ) {
+    document.getElementById("best-price").textContent = "-";
+    return;
 
-        localStorage.setItem(
-            "bestPrice",
-            currentPrice
-        );
+}
 
-    }
+const bestPrice = Math.min(
+    ...history.map(item => item.price)
+);
 
-    document.getElementById("best-price").textContent =
-        formatGold(
-            Number(localStorage.getItem("bestPrice"))
-        );
+document.getElementById("best-price").textContent =
+    formatGold(bestPrice);
 
 }
 function savePriceHistory(price) {
