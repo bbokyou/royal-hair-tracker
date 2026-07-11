@@ -230,6 +230,7 @@ body {
     color: #555;
 
 }
+
 .today-title{
     font-size:20px;
     font-weight:bold;
@@ -240,8 +241,47 @@ body {
 
     margin-top:8px;
 
+    display:flex;
+
+    align-items:center;
+
+    gap:10px;
+
     font-size:14px;
 
     color:#777;
+
+}
+#refreshBtn{
+
+    background:#4caf50;
+
+    color:white;
+
+    border:none;
+
+    border-radius:6px;
+
+    padding:4px 10px;
+
+    font-size:12px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+#refreshBtn:hover{
+
+    background:#43a047;
+
+}
+
+#refreshBtn:disabled{
+
+    background:#bdbdbd;
+
+    cursor:not-allowed;
 
 }
