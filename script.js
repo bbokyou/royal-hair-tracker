@@ -18,6 +18,12 @@ async function loadAuction() {
 
         console.log(data);
 
+        const targetItems = data.auction_item.filter(item =>
+    item.item_display_name === "로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)"
+);
+
+console.log(targetItems);
+
     } catch (error) {
         console.error(error);
     }
