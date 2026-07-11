@@ -111,6 +111,10 @@ const lowestItemCount = targetItems.filter(item =>
     item.auction_price_per_unit === lowestItem.auction_price_per_unit
 ).length;
 
+console.log("최저가:", lowestItem.auction_price_per_unit);
+console.log("최저가 매물 수:", lowestItemCount);
+console.log(targetItems);
+
 document.getElementById("lowest-count").textContent =
     lowestItemCount;
 
