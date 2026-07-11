@@ -36,17 +36,30 @@ const lowestItem = targetItems.reduce((lowest, item) => {
         : lowest;
 });
 
+const savedPrice = localStorage.getItem("lastLowestPrice");
+
+if (savedPrice != lowestItem.auction_price_per_unit) {
+
+    localStorage.setItem(
+        "lastLowestPrice",
+        lowestItem.auction_price_per_unit
+    );
+
+    localStorage.setItem(
+        "firstSeenTime",
+        new Date().toISOString()
+    );
+
+}
+
 document.getElementById("lowest-price").textContent =
     lowestItem.auction_price_per_unit.toLocaleString() + " Gold";
 
-    localStorage.setItem(
-    "lastLowestPrice",
-    lowestItem.auction_price_per_unit
-);
+const firstSeenTime = localStorage.getItem("firstSeenTime");
 
-console.log(
-    localStorage.getItem("lastLowestPrice")
-);
+document.getElementById("first-seen").textContent =
+    new Date(firstSeenTime).toLocaleString("ko-KR");
+    
     }
 
 
