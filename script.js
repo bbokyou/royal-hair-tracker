@@ -51,8 +51,12 @@ const allItems = [
 const allItems = [...firstData.auction_item];
 
 let nextCursor = firstData.next_cursor;
+let page = 1;
 
 while (nextCursor) {
+
+    console.log("현재 페이지:", page);
+    page++;
 
     console.log("다음 페이지 가져오는 중...");
 
@@ -78,6 +82,15 @@ if (!data.auction_item || data.auction_item.length === 0) {
 nextCursor = data.next_cursor;
 
 await new Promise(resolve => setTimeout(resolve, 200));
+
+console.log(
+    "페이지:",
+    nextCursor,
+    "가져온 개수:",
+    data.auction_item?.length
+);
+
+console.log("응답 상태:", response.status);
 
 }
 
