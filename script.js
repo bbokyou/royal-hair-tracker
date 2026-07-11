@@ -21,6 +21,11 @@ async function loadAuction() {
 
         console.log("다음 커서:", data.next_cursor);
 
+        const secondUrl =
+    BASE_URL + "&cursor=" + data.next_cursor;
+
+console.log(secondUrl);
+
         console.table(
     data.auction_item
         .filter(item => item.item_display_name.includes("로얄"))
