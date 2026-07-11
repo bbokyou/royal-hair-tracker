@@ -365,7 +365,7 @@ function updateTodayRange() {
     const diff = maxPrice - minPrice;
 
     container.innerHTML = `
-        <div class="today-title">📈 오늘의 시세</div>
+        <div class="today-title">📈 오늘의 최저가 시세는?</div>
         🔺 최고 ${formatGold(maxPrice)}<br>
         🔻 최저 ${formatGold(minPrice)}<br>
         📊 변동폭 ${formatGold(diff)}
