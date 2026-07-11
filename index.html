@@ -40,24 +40,53 @@
 
 </div>
 
-<p>
-    현재 최저가 :
-    <span id="lowest-price">...</span>
-</p>
+<div class="price-card">
 
-<p>
-    <span id="price-status"></span>
-</p>
+    <div class="price-title">
+        현재 최저가
+    </div>
 
-<p>현재 등록 수 : <span id="item-count">...</span>개</p>
+    <div id="lowest-price" class="price-value">
+        ...
+    </div>
 
-<p>최저가 매물 수량 : <span id="lowest-count">...</span>개</p>
+    <div id="price-status" class="price-status">
+    </div>
 
-<p>최저가 최초 발견 시간 : <span id="first-seen">...</span></p>
+</div>
 
-<p>발견 후 최저가 유지 시간 : <span id="duration">...</span></p>
+<div class="info-card">
 
-<button id="enable-sound">🔔최저가 알림 소리 켜기~</button>
+    <div class="info-row">
+        <span>📦 현재 등록 수</span>
+        <span><span id="item-count">...</span>개</span>
+    </div>
+
+    <div class="info-row">
+        <span>🏷️ 최저가 매물</span>
+        <span><span id="lowest-count">...</span>개</span>
+    </div>
+
+    <div class="info-row">
+        <span>🕒 최초 발견</span>
+        <span id="first-seen">...</span>
+    </div>
+
+    <div class="info-row">
+        <span>⏱️ 유지 시간</span>
+        <span id="duration">...</span>
+    </div>
+
+</div>
+
+<div class="button-area">
+
+    <button id="enable-sound">
+        🔔 최저가 알림 소리 켜기
+    </button>
+
+</div>
+
 <h2>📈 가격 변동 로그</h2>
 
 <div id="price-history"></div>

@@ -42,3 +42,109 @@ body {
     color: gray;
     font-size: 14px;
 }
+.price-card {
+
+    background: #f7f7f7;
+
+    border: 1px solid #dddddd;
+ border-radius: 12px;
+
+    padding: 25px;
+
+    margin-top: 20px;
+    margin-bottom: 25px;
+
+    text-align: center;
+}
+
+.price-title {
+
+    font-size: 18px;
+
+    color: #666;
+
+    margin-bottom: 10px;
+
+}
+
+.price-value {
+
+    font-size: 42px;
+
+    font-weight: bold;
+
+    color: #222;
+
+}
+
+.price-status {
+
+    margin-top: 15px;
+
+    font-size: 18px;
+
+    line-height: 1.6;
+
+}
+.info-card {
+
+    background: #fafafa;
+
+    border: 1px solid #dddddd;
+
+    border-radius: 12px;
+
+    padding: 20px;
+
+    margin-bottom: 25px;
+
+}
+
+.info-row {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 12px 0;
+
+}
+
+.info-row:not(:last-child) {
+
+    border-bottom: 1px solid #eeeeee;
+
+}
+.button-area {
+
+    margin-bottom: 30px;
+
+}
+
+#enable-sound {
+
+    background: #4caf50;
+
+    color: white;
+
+    border: none;
+
+    border-radius: 8px;
+
+    padding: 12px 20px;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: 0.2s;
+
+}
+
+#enable-sound:hover {
+
+    background: #43a047;
+
+}

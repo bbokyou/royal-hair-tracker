@@ -81,19 +81,19 @@ else if (currentPrice < previousPrice) {
 
     const diff = previousPrice - currentPrice;
 
-    status.innerHTML = `
-        🔥 끼얏호우 더 싸졌다!<br>
-        ▼ ${diff.toLocaleString()} Gold
-    `;
+status.innerHTML = `
+    🔥 끼얏호우 더 싸졌다!<br>
+    ▼ ${formatGold(diff)}
+`;
 }
 else if (currentPrice > previousPrice) {
 
     const diff = currentPrice - previousPrice;
 
-    status.innerHTML = `
-        😭 악 가격 오름...<br>
-        ▲ ${diff.toLocaleString()} Gold
-    `;
+status.innerHTML = `
+    😭 악 가격 오름...<br>
+    ▲ ${formatGold(diff)}
+`;
 }
 else {
     status.textContent = "😐 흠 아직 그대로군.";
@@ -108,11 +108,10 @@ if (
     if (Notification.permission === "granted") {
 
         new Notification("👍최저가가 갱신되었다요!👍", {
-            body:
-                Number(savedPrice).toLocaleString() +
-                " → " +
-                lowestItem.auction_price_per_unit.toLocaleString() +
-                " Gold"
+           body:
+    formatGold(Number(savedPrice)) +
+    " → " +
+    formatGold(lowestItem.auction_price_per_unit)
         });
 
     }
@@ -129,7 +128,7 @@ if (
 }
 
 document.getElementById("lowest-price").textContent =
-    lowestItem.auction_price_per_unit.toLocaleString() + " Gold";
+    formatGold(lowestItem.auction_price_per_unit);
 
     savePriceHistory(lowestItem.auction_price_per_unit);
 
@@ -212,7 +211,7 @@ if (index < array.length - 1) {
         const div = document.createElement("div");
 
         div.innerHTML = `
-            <strong>${icon} ${item.price.toLocaleString()} Gold</strong><br>
+           <strong>${icon} ${formatGold(item.price)}</strong><br>
             ${new Date(item.time).toLocaleString("ko-KR")}
             <hr>
         `;
@@ -244,6 +243,28 @@ function updateDuration() {
         document.getElementById("duration").textContent =
         `${days}일 ${hours}시간 ${minutes}분`;
 
+
+}
+
+function formatGold(price) {
+
+    const eok = Math.floor(price / 100000000);
+    const man = Math.floor((price % 100000000) / 10000);
+
+    if (eok > 0) {
+
+        if (man > 0) {
+            return `${eok}억 ${man}만 Gold`;
+        }
+
+        return `${eok}억 Gold`;
+    }
+
+    if (price >= 10000) {
+        return `${Math.floor(price / 10000)}만 Gold`;
+    }
+
+    return `${price.toLocaleString()} Gold`;
 
 }
 loadAuction();
