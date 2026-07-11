@@ -39,9 +39,14 @@ const lowestItem = targetItems.reduce((lowest, item) => {
 document.getElementById("lowest-price").textContent =
     lowestItem.auction_price_per_unit.toLocaleString() + " Gold";
 
-document.getElementById("expire-time").textContent =
-    new Date(lowestItem.date_auction_expire).toLocaleString("ko-KR");
+    localStorage.setItem(
+    "lastLowestPrice",
+    lowestItem.auction_price_per_unit
+);
 
+console.log(
+    localStorage.getItem("lastLowestPrice")
+);
     }
 
 
