@@ -96,13 +96,17 @@ console.table(
     item.item_display_name === "로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)"
 );
 
+console.log("여성용 개수:", targetItems.length);
 
 console.table(
-    targetItems.map(item => ({
-        이름: item.item_display_name,
-        가격: item.auction_price_per_unit
-    }))
+    targetItems
+        .sort((a, b) => a.auction_price_per_unit - b.auction_price_per_unit)
+        .map(item => ({
+            가격: item.auction_price_per_unit
+        }))
 );
+
+
 if (targetItems.length > 0) {
 
     const lowestPrice = Math.min(
@@ -113,6 +117,8 @@ if (targetItems.length > 0) {
         lowestPrice.toLocaleString() + " Gold";
 
 }
+
+
     } catch (error) {
         console.error(error);
     }
