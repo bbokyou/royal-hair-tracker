@@ -18,15 +18,15 @@ const firstResponse = await fetch(BASE_URL, {
 
         console.log("상태:", firstResponse.status);
 
-        const data = await firstResponse.json();
+        const firstData = await firstResponse.json();
 
-        console.log(data);
+        console.log(firstData);
 
-        console.log("다음 커서:", data.next_cursor);
+        console.log("다음 커서:", firstData.next_cursor);
 
         /*
         const secondUrl =
-    BASE_URL + "&cursor=" + data.next_cursor;
+    BASE_URL + "&cursor=" + firstData.next_cursor;
 
 
 const response2 = await fetch(secondUrl, {
@@ -48,17 +48,18 @@ const allItems = [
 
 */
 
-const allItems = [...data.auction_item];
+const allItems = [...firstData.auction_item];
 
-let nextCursor = data.next_cursor;
+let nextCursor = firstData.next_cursor;
 
 while (nextCursor) {
 
     console.log("다음 페이지 가져오는 중...");
 
-    const response = await fetch(
-        BASE_URL + "&cursor=" + nextCursor,
-        {
+    const url = BASE_URL + "&cursor=" + nextCursor;
+
+const response = await fetch(url, {
+        
             method: "GET",
             headers: {
                 "x-nxopen-api-key": API_KEY
@@ -68,13 +69,16 @@ while (nextCursor) {
 
     const data = await response.json();
 
+if (!data.auction_item || data.auction_item.length === 0) {
+    console.log("더 이상 가져올 데이터가 없습니다.");
+    break;
+}
     allItems.push(...data.auction_item);
 
 nextCursor = data.next_cursor;
 
-    if (!nextCursor) {
-    break;
-}
+await new Promise(resolve => setTimeout(resolve, 200));
+
 }
 
 console.log("전체 아이템 개수:", allItems.length);
