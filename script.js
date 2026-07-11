@@ -9,21 +9,22 @@ async function loadAuction() {
 
  
 
-const response = await fetch(BASE_URL, {
+const firstResponse = await fetch(BASE_URL, {
             method: "GET",
             headers: {
                 "x-nxopen-api-key": API_KEY
             }
         });
 
-        console.log("상태:", response.status);
+        console.log("상태:", firstResponse.status);
 
-        const data = await response.json();
+        const data = await firstResponse.json();
 
         console.log(data);
 
         console.log("다음 커서:", data.next_cursor);
 
+        /*
         const secondUrl =
     BASE_URL + "&cursor=" + data.next_cursor;
 
@@ -45,6 +46,37 @@ const allItems = [
     ...data2.auction_item
 ];
 
+*/
+
+const allItems = [...data.auction_item];
+
+let nextCursor = data.next_cursor;
+
+while (nextCursor) {
+
+    console.log("다음 페이지 가져오는 중...");
+
+    const response = await fetch(
+        BASE_URL + "&cursor=" + nextCursor,
+        {
+            method: "GET",
+            headers: {
+                "x-nxopen-api-key": API_KEY
+            }
+        }
+    );
+
+    const data = await response.json();
+
+    allItems.push(...data.auction_item);
+
+nextCursor = data.next_cursor;
+
+    if (!nextCursor) {
+    break;
+}
+}
+
 console.log("전체 아이템 개수:", allItems.length);
 
 console.table(
@@ -55,7 +87,6 @@ console.table(
             가격: item.auction_price_per_unit
         }))
 );
-        console.log("받은 아이템 개수:", data.auction_item.length);
 
         const targetItems = allItems.filter(item =>
     item.item_display_name === "로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)"
