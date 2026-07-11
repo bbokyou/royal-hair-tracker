@@ -68,12 +68,43 @@ document.getElementById("lowest-count").textContent =
     lowestItemCount;
 
     const savedPrice = localStorage.getItem("lastLowestPrice");
+const status = document.getElementById("price-status");
 
+const currentPrice = Number(lowestItem.auction_price_per_unit);
+const previousPrice = Number(savedPrice);
+
+// 현재 가격 상태 표시
+if (!savedPrice) {
+    status.textContent = "👋 첫 기록입니다!";
+}
+else if (currentPrice < previousPrice) {
+
+    const diff = previousPrice - currentPrice;
+
+    status.innerHTML = `
+        🔥 끼얏호우 더 싸졌다!<br>
+        ▼ ${diff.toLocaleString()} Gold
+    `;
+}
+else if (currentPrice > previousPrice) {
+
+    const diff = currentPrice - previousPrice;
+
+    status.innerHTML = `
+        😭 악 가격 오름...<br>
+        ▲ ${diff.toLocaleString()} Gold
+    `;
+}
+else {
+    status.textContent = "😐 흠 아직 그대로군.";
+}
+
+// 가격이 내려갔을 때만 알림
 if (
     savedPrice &&
     Number(lowestItem.auction_price_per_unit) < Number(savedPrice)
-)
-{
+) {
+
     if (Notification.permission === "granted") {
 
         new Notification("👍최저가가 갱신되었다요!👍", {
@@ -85,10 +116,11 @@ if (
         });
 
     }
-if (soundEnabled) {
-    audio.currentTime = 0;
-    audio.play().catch(console.error);
-}
+
+    if (soundEnabled) {
+        audio.currentTime = 0;
+        audio.play().catch(console.error);
+    }
 
     localStorage.setItem(
         "firstSeenTime",
@@ -211,6 +243,7 @@ function updateDuration() {
     const minutes = diffMinutes % 60;
         document.getElementById("duration").textContent =
         `${days}일 ${hours}시간 ${minutes}분`;
+
 
 }
 loadAuction();
