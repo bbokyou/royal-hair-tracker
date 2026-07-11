@@ -22,96 +22,19 @@ const firstResponse = await fetch(BASE_URL, {
         const firstData = await firstResponse.json();
 
         console.log(firstData);
-console.log(firstData.auction_item.length);
-
-        console.log(firstData);
-
-        console.log("다음 커서:", firstData.next_cursor);
-
-        /*
-        const secondUrl =
-    BASE_URL + "&cursor=" + firstData.next_cursor;
-
-
-const response2 = await fetch(secondUrl, {
-    method: "GET",
-    headers: {
-        "x-nxopen-api-key": API_KEY
-    }
-});
-
-const data2 = await response2.json();
-
-console.log("2페이지 개수:", data2.auction_item.length);
-console.log("2페이지 다음 커서:", data2.next_cursor);
-
-const allItems = [
-    ...data.auction_item,
-    ...data2.auction_item
-];
-
-*/
-
-const allItems = [...firstData.auction_item];
-
-let nextCursor = firstData.next_cursor;
-let page = 1;
-
-while (nextCursor) {
-
-    console.log("현재 페이지:", page);
-    page++;
-
-    console.log("다음 페이지 가져오는 중...");
-
-    const url = BASE_URL + "&cursor=" + nextCursor;
-
-const response = await fetch(url, {
         
-            method: "GET",
-            headers: {
-                "x-nxopen-api-key": API_KEY
-            }
-        }
-    );
+        const targetItems = firstData.auction_item;
 
-    const data = await response.json();
 
-if (!data.auction_item || data.auction_item.length === 0) {
-    console.log("더 이상 가져올 데이터가 없습니다.");
-    break;
-}
-    allItems.push(...data.auction_item);
-
-nextCursor = data.next_cursor;
-
-await new Promise(resolve => setTimeout(resolve, 200));
-
-console.log(
-    "페이지:",
-    nextCursor,
-    "가져온 개수:",
-    data.auction_item?.length
-);
-
-console.log("응답 상태:", response.status);
-
-}
-
-console.log("전체 아이템 개수:", allItems.length);
+console.log("전체 아이템 개수:", targetItems.length);
 
 console.table(
-    allItems
-        .filter(item => item.item_display_name.includes("로얄"))
-        .map(item => ({
-            이름: item.item_display_name,
-            가격: item.auction_price_per_unit
-        }))
+    targetItems.map(item => ({
+        이름: item.item_display_name,
+        가격: item.auction_price_per_unit
+    }))
 );
 
-        const targetItems = allItems.filter(item =>
-    item.item_display_name === "로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)"
-);
 
 
 const cheapItems = targetItems.filter(
