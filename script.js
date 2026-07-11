@@ -85,6 +85,9 @@ const status = document.getElementById("price-status");
 const currentPrice = Number(lowestItem.auction_price_per_unit);
 const previousPrice = Number(savedPrice);
 
+console.log("이전", previousPrice);
+console.log("현재", currentPrice);
+
 // 현재 가격 상태 표시
 if (!savedPrice) {
     status.textContent = "👋 첫 기록입니다!";
