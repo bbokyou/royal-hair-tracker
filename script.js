@@ -130,6 +130,8 @@ if (
 document.getElementById("lowest-price").textContent =
     formatGold(lowestItem.auction_price_per_unit);
 
+    updateBestPrice(lowestItem.auction_price_per_unit);
+
     savePriceHistory(lowestItem.auction_price_per_unit);
 
 renderPriceHistory();
@@ -156,8 +158,32 @@ document.getElementById("first-seen").textContent =
         "불러오기 실패";
 }
 }
-function savePriceHistory(price) {
+function updateBestPrice(currentPrice) {
 
+    const savedBest =
+        localStorage.getItem("bestPrice");
+
+    if (
+        !savedBest ||
+        currentPrice < Number(savedBest)
+    ) {
+
+        localStorage.setItem(
+            "bestPrice",
+            currentPrice
+        );
+
+    }
+
+
+
+    document.getElementById("best-price").textContent =
+        formatGold(
+            Number(localStorage.getItem("bestPrice"))
+        );
+
+}
+function savePriceHistory(price) {
     const history =
         JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
 
@@ -258,7 +284,7 @@ function updateTodayRange() {
     const diff = maxPrice - minPrice;
 
     container.innerHTML = `
-        📈 오늘의 시세!<br>
+        <div class="today-title">📈 오늘의 시세</div>
         🔺 최고 ${formatGold(maxPrice)}<br>
         🔻 최저 ${formatGold(minPrice)}<br>
         📊 변동폭 ${formatGold(diff)}
