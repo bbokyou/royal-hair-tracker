@@ -6,18 +6,46 @@ const AUTO_REFRESH_TIME = 10 * 60 * 1000; // 10분
 
 const refreshBtn = document.getElementById("refreshBtn");
 
-let soundEnabled = false;
-document.getElementById("enable-sound").addEventListener("click", async () => {
+let soundEnabled =
+    localStorage.getItem("soundEnabled") === "true";
+
+const soundBtn = document.getElementById("enable-sound");
+
+soundBtn.textContent = soundEnabled
+    ? "🔔 알림 ON"
+    : "🔕 알림 OFF";
+
+soundBtn.addEventListener("click", async () => {
 
     try {
 
-      audio.currentTime = 0;
-await audio.play();
+        // 처음 한 번만 브라우저 오디오 권한 활성화
+        if (!soundEnabled) {
 
-audio.pause();
-audio.currentTime = 0;
-soundEnabled = true;
-console.log("🔔최저가 알림 소리 켜기");
+            audio.currentTime = 0;
+            await audio.play();
+
+            audio.pause();
+            audio.currentTime = 0;
+
+        }
+
+        soundEnabled = !soundEnabled;
+
+        localStorage.setItem(
+    "soundEnabled",
+    soundEnabled
+);
+
+        soundBtn.textContent = soundEnabled
+            ? "🔔 알림 ON"
+            : "🔕 알림 OFF";
+
+        console.log(
+            soundEnabled
+                ? "🔔 알림 켜짐"
+                : "🔕 알림 꺼짐"
+        );
 
     } catch (e) {
         console.error(e);
@@ -152,9 +180,13 @@ if (
     }
 
     if (soundEnabled) {
-        audio.currentTime = 0;
-        audio.play().catch(console.error);
-    }
+
+    audio.pause();
+    audio.currentTime = 0;
+
+    audio.play().catch(console.error);
+
+}
 
 }
 
