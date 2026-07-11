@@ -1,14 +1,17 @@
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const audio = new Audio("money.mp3");
-
+let soundEnabled = false;
 document.getElementById("enable-sound").addEventListener("click", async () => {
 
     try {
 
-        audio.currentTime = 0;
-        await audio.play();
+      audio.currentTime = 0;
+await audio.play();
 
-        console.log("🔔 소리 재생 성공!");
+audio.pause();
+audio.currentTime = 0;
+soundEnabled = true;
+console.log("🔔 알림 활성화!");
 
     } catch (e) {
         console.error(e);
@@ -56,20 +59,26 @@ const lowestItem = targetItems.reduce((lowest, item) => {
 
 const savedPrice = localStorage.getItem("lastLowestPrice");
 
-if (true)
+if (
+    savedPrice &&
+    Number(lowestItem.auction_price_per_unit) < Number(savedPrice)
+)
 {
     if (Notification.permission === "granted") {
 
         new Notification("👍최저가가 갱신되었다요!👍", {
             body:
-                savedPrice.toLocaleString() +
+                Number(savedPrice).toLocaleString() +
                 " → " +
                 lowestItem.auction_price_per_unit.toLocaleString() +
                 " Gold"
         });
 
     }
-
+if (soundEnabled) {
+    audio.currentTime = 0;
+    audio.play().catch(console.error);
+}
 
     localStorage.setItem(
         "firstSeenTime",
