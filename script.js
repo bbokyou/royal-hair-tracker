@@ -1,4 +1,5 @@
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
+const PRICE_LOG_KEY = "priceHistory";
 const audio = new Audio("money.mp3");
 let soundEnabled = false;
 document.getElementById("enable-sound").addEventListener("click", async () => {
@@ -11,7 +12,7 @@ await audio.play();
 audio.pause();
 audio.currentTime = 0;
 soundEnabled = true;
-console.log("🔔 알림 활성화!");
+console.log("🔔최저가 알림 소리 켜기");
 
     } catch (e) {
         console.error(e);
@@ -98,6 +99,8 @@ if (soundEnabled) {
 document.getElementById("lowest-price").textContent =
     lowestItem.auction_price_per_unit.toLocaleString() + " Gold";
 
+    savePriceHistory(lowestItem.auction_price_per_unit);
+
     localStorage.setItem(
     "lastLowestPrice",
     lowestItem.auction_price_per_unit
@@ -117,6 +120,27 @@ document.getElementById("first-seen").textContent =
     document.getElementById("lowest-price").textContent =
         "불러오기 실패";
 }
+}
+function savePriceHistory(price) {
+
+    const history =
+        JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
+
+    const last = history[history.length - 1];
+
+    if (last && last.price === price) {
+        return;
+    }
+
+    history.push({
+        price: price,
+        time: new Date().toISOString()
+    });
+
+    localStorage.setItem(
+        PRICE_LOG_KEY,
+        JSON.stringify(history)
+    );
 }
 function updateDuration() {
 
