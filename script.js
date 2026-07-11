@@ -1,20 +1,20 @@
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const audio = new Audio("money.mp3");
 
-document.addEventListener(
-    "click",
-    async () => {
-        try {
-            await audio.play();
-            audio.pause();
-            audio.currentTime = 0;
-            console.log("🔔 알림 활성화!");
-        } catch (e) {
-            console.log(e);
-        }
-    },
-    { once: true }
-);
+document.getElementById("enable-sound").addEventListener("click", async () => {
+
+    try {
+        await audio.play();
+        audio.pause();
+        audio.currentTime = 0;
+
+        console.log("🔔 알림 활성화!");
+
+    } catch (e) {
+        console.error(e);
+    }
+
+});
 const BASE_URL =
   "https://open.api.nexon.com/mabinogi/v1/auction/keyword-search?keyword=" +
   encodeURIComponent("로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)");
