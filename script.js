@@ -44,7 +44,9 @@ const firstResponse = await fetch(BASE_URL, {
 const targetItems = firstData.auction_item ?? [];
 
 if (targetItems.length === 0) {
-    document.getElementById("lowest-price").textContent = "매물 없음";
+    document.getElementById("lowest-price").textContent = "아니 이럴수가?";
+    document.getElementById("item-count").textContent = "0";
+    document.getElementById("lowest-count").textContent = "매물이 없네...";
     return;
 }
 
@@ -57,7 +59,14 @@ const lowestItem = targetItems.reduce((lowest, item) => {
         : lowest;
 });
 
-const savedPrice = localStorage.getItem("lastLowestPrice");
+const lowestItemCount = targetItems.filter(item =>
+    item.auction_price_per_unit === lowestItem.auction_price_per_unit
+).length;
+
+document.getElementById("lowest-count").textContent =
+    lowestItemCount;
+
+    const savedPrice = localStorage.getItem("lastLowestPrice");
 
 if (
     savedPrice &&
