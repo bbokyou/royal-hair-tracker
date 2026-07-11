@@ -36,22 +36,6 @@ console.table(
 );
 
 
-
-const cheapItems = targetItems.filter(
-    item => item.auction_price_per_unit === 110000000
-);
-
-console.log("1.1억 개수:", cheapItems.length);
-
-console.table(
-    cheapItems.map(item => ({
-        가격: item.auction_price_per_unit,
-        만료시간: item.date_auction_expire
-    }))
-);
-
-console.log("여성용 개수:", targetItems.length);
-
 console.table(
     targetItems
         .sort((a, b) => a.auction_price_per_unit - b.auction_price_per_unit)
