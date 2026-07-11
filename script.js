@@ -27,12 +27,20 @@ if (targetItems.length === 0) {
     return;
 }
 
-const lowestPrice = Math.min(
-    ...targetItems.map(item => item.auction_price_per_unit)
-);
+document.getElementById("item-count").textContent =
+    targetItems.length;
+
+const lowestItem = targetItems.reduce((lowest, item) => {
+    return item.auction_price_per_unit < lowest.auction_price_per_unit
+        ? item
+        : lowest;
+});
 
 document.getElementById("lowest-price").textContent =
-    lowestPrice.toLocaleString() + " Gold";
+    lowestItem.auction_price_per_unit.toLocaleString() + " Gold";
+
+document.getElementById("expire-time").textContent =
+    new Date(lowestItem.date_auction_expire).toLocaleString("ko-KR");
 
     }
 
