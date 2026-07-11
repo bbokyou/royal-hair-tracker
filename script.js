@@ -1,3 +1,16 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-app.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
+const firebaseConfig = {
+  apiKey: "AIzaSyDkZU4AOkAPmIQVx7L0vg1w3X3jRBFaMYg",
+  authDomain: "bokkyou.firebaseapp.com",
+  projectId: "bokkyou",
+  storageBucket: "bokkyou.firebasestorage.app",
+  messagingSenderId: "527930263050",
+  appId: "1:527930263050:web:739bee6b5ab96dfc4201f3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
 const audio = new Audio("assets/money.mp3");
