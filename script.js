@@ -59,7 +59,7 @@ const firstSeenTime = localStorage.getItem("firstSeenTime");
 
 document.getElementById("first-seen").textContent =
     new Date(firstSeenTime).toLocaleString("ko-KR");
-    
+
     }
 
 
@@ -70,5 +70,25 @@ document.getElementById("first-seen").textContent =
         "불러오기 실패";
 }
 }
+function updateDuration() {
 
+    const firstSeenTime = localStorage.getItem("firstSeenTime");
+
+    if (!firstSeenTime) {
+        document.getElementById("duration").textContent = "-";
+        return;
+    }
+
+    const firstSeenDate = new Date(firstSeenTime);
+    const now = new Date();
+
+    const diffMs = now - firstSeenDate;
+
+    const diffMinutes = Math.floor(diffMs / 1000 / 60);
+
+    const days = Math.floor(diffMinutes / 1440);
+    const hours = Math.floor((diffMinutes % 1440) / 60);
+    const minutes = diffMinutes % 60;
+
+}
 loadAuction();
