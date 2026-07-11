@@ -28,6 +28,12 @@ async function loadAuction() {
 
 console.log(targetItems);
 
+console.table(
+    targetItems.map(item => ({
+        이름: item.item_display_name,
+        가격: item.auction_price_per_unit
+    }))
+);
     } catch (error) {
         console.error(error);
     }
