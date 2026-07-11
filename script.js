@@ -21,7 +21,14 @@ async function loadAuction() {
 
         console.log("다음 커서:", data.next_cursor);
 
-        console.table(data.auction_item.map(item => item.item_display_name));
+        console.table(
+    data.auction_item
+        .filter(item => item.item_display_name.includes("로얄"))
+        .map(item => ({
+            이름: item.item_display_name,
+            가격: item.auction_price_per_unit
+        }))
+);
 
         console.log("받은 아이템 개수:", data.auction_item.length);
 
