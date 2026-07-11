@@ -7,23 +7,9 @@ const BASE_URL =
 async function loadAuction() {
     try {
 
-        let cursor = "";
-        let allItems = [];
-        let page = 1;
+ 
 
-        while (true) {
-            console.log("현재 페이지:", page);
-break;
-
-        }
-
-        let url = BASE_URL;
-
-if (cursor !== "") {
-    url = BASE_URL + "&cursor=" + cursor;
-}
-
-const response = await fetch(url, {
+const response = await fetch(BASE_URL, {
             method: "GET",
             headers: {
                 "x-nxopen-api-key": API_KEY
@@ -41,7 +27,6 @@ const response = await fetch(url, {
         const secondUrl =
     BASE_URL + "&cursor=" + data.next_cursor;
 
-console.log(secondUrl);
 
 const response2 = await fetch(secondUrl, {
     method: "GET",
@@ -76,7 +61,6 @@ console.table(
     item.item_display_name === "로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)"
 );
 
-console.log(targetItems);
 
 console.table(
     targetItems.map(item => ({
