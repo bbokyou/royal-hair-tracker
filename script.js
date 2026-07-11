@@ -17,49 +17,32 @@ const firstResponse = await fetch(BASE_URL, {
             }
         });
 
-        console.log("상태:", firstResponse.status);
 
         const firstData = await firstResponse.json();
 
-        console.log(firstData);
-        
-        const targetItems = firstData.auction_item;
+const targetItems = firstData.auction_item ?? [];
 
-
-console.log("전체 아이템 개수:", targetItems.length);
-
-console.table(
-    targetItems.map(item => ({
-        이름: item.item_display_name,
-        가격: item.auction_price_per_unit
-    }))
-);
-
-
-console.table(
-    targetItems
-        .sort((a, b) => a.auction_price_per_unit - b.auction_price_per_unit)
-        .map(item => ({
-            가격: item.auction_price_per_unit
-        }))
-);
-
-
-if (targetItems.length > 0) {
-
-    const lowestPrice = Math.min(
-        ...targetItems.map(item => item.auction_price_per_unit)
-    );
-
-    document.getElementById("lowest-price").textContent =
-        lowestPrice.toLocaleString() + " Gold";
-
+if (targetItems.length === 0) {
+    document.getElementById("lowest-price").textContent = "매물 없음";
+    return;
 }
 
+const lowestPrice = Math.min(
+    ...targetItems.map(item => item.auction_price_per_unit)
+);
 
-    } catch (error) {
-        console.error(error);
+document.getElementById("lowest-price").textContent =
+    lowestPrice.toLocaleString() + " Gold";
+
     }
+
+
+    catch (error) {
+    console.error(error);
+
+    document.getElementById("lowest-price").textContent =
+        "불러오기 실패";
+}
 }
 
 loadAuction();
