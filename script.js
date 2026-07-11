@@ -59,7 +59,7 @@ if (targetItems.length === 0) {
 
     document.getElementById("last-update").textContent =
         "🟢 마지막 조회 : " + new Date().toLocaleTimeString("ko-KR");
-        
+
     return;
 }
 
@@ -111,6 +111,18 @@ else {
     status.textContent = "😐 흠 아직 그대로군.";
 }
 
+// 최저가가 바뀌면 최초 발견 시간 갱신
+if (!savedPrice || currentPrice !== previousPrice) {
+
+    localStorage.setItem(
+        "firstSeenTime",
+        new Date().toISOString()
+    );
+
+    console.log("최초 발견시간 갱신!");
+
+}
+
 // 가격이 내려갔을 때만 알림
 if (
     savedPrice &&
@@ -133,10 +145,6 @@ if (
         audio.play().catch(console.error);
     }
 
-    localStorage.setItem(
-        "firstSeenTime",
-        new Date().toISOString()
-    );
 }
 
 document.getElementById("lowest-price").textContent =
