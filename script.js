@@ -1,0 +1,1 @@
+console.log("script.js 연결 성공!");
