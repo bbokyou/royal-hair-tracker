@@ -70,8 +70,6 @@ if (true)
 
     }
 
-    audio.currentTime = 0;
-    audio.play().catch(console.error);
 
     localStorage.setItem(
         "firstSeenTime",
