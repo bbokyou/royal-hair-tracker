@@ -4,6 +4,8 @@ const audio = new Audio("assets/money.mp3");
 
 const AUTO_REFRESH_TIME = 10 * 60 * 1000; // 10분
 
+const refreshBtn = document.getElementById("refreshBtn");
+
 let soundEnabled = false;
 document.getElementById("enable-sound").addEventListener("click", async () => {
 
@@ -35,6 +37,9 @@ async function loadAuction() {
 
         document.getElementById("last-update").textContent =
         "🟡 조회 중임다...";
+
+        refreshBtn.disabled = true;
+    refreshBtn.textContent = "⏳ 조회 중...";
         
     try {
 
@@ -59,6 +64,9 @@ if (targetItems.length === 0) {
 
     document.getElementById("last-update").textContent =
         "🟢 마지막 조회 : " + new Date().toLocaleTimeString("ko-KR");
+
+        refreshBtn.disabled = false;
+        refreshBtn.textContent = "🔄 지금 조회";
 
     return;
 }
@@ -172,6 +180,9 @@ document.getElementById("first-seen").textContent =
     new Date(firstSeenTime).toLocaleString("ko-KR");
     document.getElementById("last-update").textContent =
     "🟢 마지막 조회 : " + new Date().toLocaleTimeString("ko-KR");
+    refreshBtn.disabled = false;
+refreshBtn.textContent = "🔄 지금 조회";
+
 
     }
 
@@ -185,6 +196,10 @@ document.getElementById("first-seen").textContent =
 
     document.getElementById("last-update").textContent =
         "🔴 이런! 조회 실패ㅠㅠ";
+
+        refreshBtn.disabled = false;
+refreshBtn.textContent = "🔄 지금 조회";
+
 }
 }
 function updateBestPrice(currentPrice) {
@@ -226,6 +241,11 @@ function savePriceHistory(price) {
         price: price,
         time: new Date().toISOString()
     });
+
+    // 최근 100개만 유지
+if (history.length > 100) {
+    history.shift();
+}
 
     localStorage.setItem(
         PRICE_LOG_KEY,
@@ -368,6 +388,8 @@ function formatGold(price) {
 
 }
 loadAuction();
+
+refreshBtn.addEventListener("click", loadAuction);
 
 updateTodayRange();
 
