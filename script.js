@@ -26,18 +26,36 @@ async function loadAuction() {
 
 console.log(secondUrl);
 
-        console.table(
-    data.auction_item
+const response2 = await fetch(secondUrl, {
+    method: "GET",
+    headers: {
+        "x-nxopen-api-key": API_KEY
+    }
+});
+
+const data2 = await response2.json();
+
+console.log("2페이지 개수:", data2.auction_item.length);
+console.log("2페이지 다음 커서:", data2.next_cursor);
+
+const allItems = [
+    ...data.auction_item,
+    ...data2.auction_item
+];
+
+console.log("전체 아이템 개수:", allItems.length);
+
+console.table(
+    allItems
         .filter(item => item.item_display_name.includes("로얄"))
         .map(item => ({
             이름: item.item_display_name,
             가격: item.auction_price_per_unit
         }))
 );
-
         console.log("받은 아이템 개수:", data.auction_item.length);
 
-        const targetItems = data.auction_item.filter(item =>
+        const targetItems = allItems.filter(item =>
     item.item_display_name === "로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)"
 );
 
