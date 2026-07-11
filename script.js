@@ -18,6 +18,8 @@ async function loadAuction() {
 
         console.log(data);
 
+        console.log("받은 아이템 개수:", data.auction_item.length);
+
         const targetItems = data.auction_item.filter(item =>
     item.item_display_name === "로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)"
 );
