@@ -6,7 +6,24 @@ const BASE_URL =
 
 async function loadAuction() {
     try {
-        const response = await fetch(BASE_URL, {
+
+        let cursor = "";
+        let allItems = [];
+        let page = 1;
+
+        while (true) {
+            console.log("현재 페이지:", page);
+break;
+
+        }
+
+        let url = BASE_URL;
+
+if (cursor !== "") {
+    url = BASE_URL + "&cursor=" + cursor;
+}
+
+const response = await fetch(url, {
             method: "GET",
             headers: {
                 "x-nxopen-api-key": API_KEY
@@ -67,6 +84,16 @@ console.table(
         가격: item.auction_price_per_unit
     }))
 );
+if (targetItems.length > 0) {
+
+    const lowestPrice = Math.min(
+        ...targetItems.map(item => item.auction_price_per_unit)
+    );
+
+    document.getElementById("lowest-price").textContent =
+        lowestPrice.toLocaleString() + " Gold";
+
+}
     } catch (error) {
         console.error(error);
     }
