@@ -42,8 +42,6 @@ history.sort((a, b) => {
 
 cachedHistory = history;
 
-console.log(history);
-
 return history;
 
 }
@@ -75,9 +73,6 @@ async function saveBestPrice(
     price,
     time = new Date().toISOString()
 ) {
-
-    console.trace("saveBestPrice 호출", price);
-
     await setDoc(
         doc(db, "stats", "bestPrice"),
         {
@@ -96,8 +91,6 @@ async function migrateBestPrice() {
         return;
     }
 
-    console.log(history);
-
     const bestItem = history.reduce((best, item) => {
 
     return item.price < best.price
@@ -105,8 +98,6 @@ async function migrateBestPrice() {
         : best;
 
 });
-
-console.log("최저가 찾음:", bestItem);
 
 await saveBestPrice(
     bestItem.price,
@@ -312,8 +303,6 @@ document.getElementById("lowest-price").textContent =
     const bestSnapshot = await getDoc(
     doc(db, "stats", "bestPrice")
 );
-
-console.log(bestSnapshot.data());
 
 if (
     !bestSnapshot.exists() ||
@@ -552,12 +541,6 @@ if (!currentFirstSeenTime) {
     document.getElementById("duration").textContent = "-";
     return;
 }
-
-console.log("first-seen 변경 직전");
-
-console.log(
-    document.getElementById("first-seen").textContent
-);
 
 document.getElementById("first-seen").textContent =
     new Date(currentFirstSeenTime).toLocaleString("ko-KR");
