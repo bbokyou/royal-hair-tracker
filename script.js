@@ -3,7 +3,9 @@ import {
     getFirestore,
     collection,
     addDoc,
-    getDocs
+    getDocs,
+    doc,
+    setDoc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDkZU4AOkAPmIQVx7L0vg1w3X3jRBFaMYg",
@@ -65,6 +67,18 @@ async function savePriceHistoryToFirestore(price) {
         console.error("❌ Firestore 저장 실패", e);
 
     }
+
+}
+
+async function saveBestPrice(price) {
+
+    await setDoc(
+        doc(db, "stats", "bestPrice"),
+        {
+            price: price,
+            time: new Date().toISOString()
+        }
+    );
 
 }
 
@@ -355,12 +369,20 @@ function savePriceHistory(price) {
         return;
     }
 
-    history.push({
-        price: price,
-        time: new Date().toISOString()
-    });
+    const bestPrice = Math.min(
+    ...history.map(item => item.price)
+);
 
-    savePriceHistoryToFirestore(price);
+if (price < bestPrice) {
+    saveBestPrice(price);
+}
+
+history.push({
+    price: price,
+    time: new Date().toISOString()
+});
+
+savePriceHistoryToFirestore(price);
 
     // 최근 100개만 유지
 if (history.length > 100) {
