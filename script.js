@@ -76,7 +76,7 @@ async function saveBestPrice(
     time = new Date().toISOString()
 ) {
 
-    console.trace("saveBestPrice 호출");
+    console.trace("saveBestPrice 호출", price);
 
     await setDoc(
         doc(db, "stats", "bestPrice"),
