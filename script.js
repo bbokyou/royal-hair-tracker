@@ -83,6 +83,18 @@ async function saveBestPrice(
 
 }
 
+async function saveLastPrice(price) {
+
+    await setDoc(
+        doc(db, "stats", "lastPrice"),
+        {
+            price: price,
+            time: new Date().toISOString()
+        }
+    );
+
+}
+
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
 let cachedHistory = [];
@@ -204,7 +216,14 @@ const lowestItemCount = targetItems.filter(item =>
 document.getElementById("lowest-count").textContent =
     lowestItemCount;
 
-    const savedPrice = localStorage.getItem("lastLowestPrice");
+    const lastPriceSnapshot = await getDoc(
+    doc(db, "stats", "lastPrice")
+);
+
+const savedPrice = lastPriceSnapshot.exists()
+    ? lastPriceSnapshot.data().price
+    : null;
+
 const status = document.getElementById("price-status");
 
 currentPrice = Number(lowestItem.auction_price_per_unit);
