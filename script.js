@@ -319,10 +319,7 @@ if (
 
     await updateDuration();
 
-localStorage.setItem(
-    "lastLowestPrice",
-    lowestItem.auction_price_per_unit
-);
+    await saveLastPrice(currentPrice);
 
     document.getElementById("last-update").textContent =
     "🟢 마지막 조회 : " + new Date().toLocaleTimeString("ko-KR");
