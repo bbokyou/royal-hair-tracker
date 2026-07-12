@@ -56,6 +56,8 @@ async function loadPriceHistory() {
 
     console.log(history);
 
+    return history;
+
 }
 
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
@@ -493,7 +495,11 @@ function formatGold(price) {
 
 testFirestore();
 
-loadPriceHistory();
+loadPriceHistory().then(history => {
+
+    console.log("Firestore:", history);
+
+});
 
 loadAuction();
 
