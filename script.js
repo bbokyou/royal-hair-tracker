@@ -261,7 +261,7 @@ document.getElementById("lowest-price").textContent =
 
     await renderPriceHistory();
 
-    updateTodayRange();
+    await updateTodayRange();
 
 localStorage.setItem(
     "lastLowestPrice",
@@ -415,10 +415,9 @@ async function renderPriceHistory() {
 
 }
 
-function updateTodayRange() {
+async function updateTodayRange() {
 
-    const history =
-        JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
+    const history = await loadPriceHistory();
 
     const today = new Date().toDateString();
 
@@ -503,8 +502,6 @@ function formatGold(price) {
 loadAuction();
 
 refreshBtn.addEventListener("click", loadAuction);
-
-updateTodayRange();
 
 updateDuration();
 setInterval(updateDuration, 1000);
