@@ -85,16 +85,27 @@ async function saveBestPrice(
 
 async function saveLastPrice(price) {
 
-    await setDoc(
-        doc(db, "stats", "lastPrice"),
-        {
-            price: price,
-            time: new Date().toISOString()
-        }
-    );
+    try {
+
+        console.log("lastPrice 저장 시도", price);
+
+        await setDoc(
+            doc(db, "stats", "lastPrice"),
+            {
+                price: price,
+                time: new Date().toISOString()
+            }
+        );
+
+        console.log("lastPrice 저장 완료");
+
+    } catch (e) {
+
+        console.error("lastPrice 저장 실패", e);
+
+    }
 
 }
-
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
 let cachedHistory = [];
