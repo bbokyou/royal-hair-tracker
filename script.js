@@ -91,6 +91,8 @@ const AUTO_REFRESH_TIME = 10 * 60 * 1000; // 10분
 
 let currentFirstSeenTime = null;
 
+let currentPrice = null;
+
 const refreshBtn = document.getElementById("refreshBtn");
 
 let soundEnabled =
@@ -204,7 +206,7 @@ document.getElementById("lowest-count").textContent =
     const savedPrice = localStorage.getItem("lastLowestPrice");
 const status = document.getElementById("price-status");
 
-const currentPrice = Number(lowestItem.auction_price_per_unit);
+currentPrice = Number(lowestItem.auction_price_per_unit);
 const previousPrice = Number(savedPrice);
 
 // 현재 가격 상태 표시
@@ -509,7 +511,8 @@ async function updateDuration() {
     return;
 }
 
-    const currentPrice = history[history.length - 1].price;
+    console.log("history 마지막 가격:", currentPrice);
+    console.log("찾아낸 최초 발견:", getFirstSeenTime(history, currentPrice));
 
 currentFirstSeenTime =
     getFirstSeenTime(history, currentPrice);
