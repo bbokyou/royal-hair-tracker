@@ -307,6 +307,19 @@ if (
 document.getElementById("lowest-price").textContent =
     formatGold(lowestItem.auction_price_per_unit);
 
+    const bestSnapshot = await getDoc(
+    doc(db, "stats", "bestPrice")
+);
+
+if (
+    !bestSnapshot.exists() ||
+    currentPrice < bestSnapshot.data().price
+) {
+
+    await saveBestPrice(currentPrice);
+
+}
+
     savePriceHistory(lowestItem.auction_price_per_unit);
 
     await updateBestPrice();
@@ -395,14 +408,6 @@ function savePriceHistory(price) {
     if (last && last.price === price) {
         return;
     }
-
-    const bestPrice = Math.min(
-    ...history.map(item => item.price)
-);
-
-if (price < bestPrice) {
-    saveBestPrice(price);
-}
 
 history.push({
     price: price,
