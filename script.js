@@ -311,6 +311,8 @@ document.getElementById("lowest-price").textContent =
     doc(db, "stats", "bestPrice")
 );
 
+console.log(bestSnapshot.data());
+
 if (
     !bestSnapshot.exists() ||
     currentPrice < bestSnapshot.data().price
