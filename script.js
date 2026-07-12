@@ -70,15 +70,41 @@ async function savePriceHistoryToFirestore(price) {
 
 }
 
-async function saveBestPrice(price) {
+async function saveBestPrice(
+    price,
+    time = new Date().toISOString()
+) {
 
     await setDoc(
         doc(db, "stats", "bestPrice"),
         {
             price: price,
-            time: new Date().toISOString()
+            time: time
         }
     );
+
+}
+
+async function migrateBestPrice() {
+
+    const history = await loadPriceHistory();
+
+    if (history.length === 0) {
+        return;
+    }
+
+    const bestItem = history.reduce((best, item) => {
+
+    return item.price < best.price
+        ? item
+        : best;
+
+});
+
+await saveBestPrice(
+    bestItem.price,
+    bestItem.time
+);
 
 }
 
@@ -515,6 +541,12 @@ if (!currentFirstSeenTime) {
     return;
 }
 
+console.log("first-seen 변경 직전");
+
+console.log(
+    document.getElementById("first-seen").textContent
+);
+
 document.getElementById("first-seen").textContent =
     new Date(currentFirstSeenTime).toLocaleString("ko-KR");
 
@@ -556,10 +588,16 @@ function formatGold(price) {
 
 }
 
-loadAuction();
+(async () => {
+
+    await migrateBestPrice();
+
+    await loadAuction();
+
+})();
 
 refreshBtn.addEventListener("click", loadAuction);
 
-setInterval(updateDuration, 1000);
+//setInterval(updateDuration, 1000);
 
 setInterval(loadAuction, AUTO_REFRESH_TIME);
