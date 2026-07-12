@@ -17,29 +17,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-async function testFirestore() {
-
-    try {
-
-        const docRef = await addDoc(
-            collection(db, "test"),
-            {
-                text: "안녕하세요!",
-                time: new Date().toISOString()
-            }
-        );
-
-        console.log("저장 성공!", docRef.id);
-
-    } catch (e) {
-
-        console.error("저장 실패!", e);
-
-    }
-    
-
-}
-
 async function loadPriceHistory() {
 
     const snapshot = await getDocs(
@@ -518,8 +495,6 @@ function formatGold(price) {
     return `${price.toLocaleString()} Gold`;
 
 }
-
-testFirestore();
 
 loadPriceHistory().then(history => {
 
