@@ -596,7 +596,7 @@ function formatGold(price) {
 
     await migrateBestPrice();
 
-    await loadAuction();
+    //await loadAuction();
 
 })();
 
