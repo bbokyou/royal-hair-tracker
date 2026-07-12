@@ -103,6 +103,8 @@ async function migrateBestPrice() {
 
 });
 
+console.log("최저가 찾음:", bestItem);
+
 await saveBestPrice(
     bestItem.price,
     bestItem.time
