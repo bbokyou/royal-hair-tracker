@@ -257,7 +257,7 @@ document.getElementById("lowest-price").textContent =
 
     savePriceHistory(lowestItem.auction_price_per_unit);
 
-    updateBestPrice();
+    await updateBestPrice();
 
     await renderPriceHistory();
 
@@ -296,10 +296,10 @@ refreshBtn.textContent = "🔄 지금 조회";
 
 }
 }
-function updateBestPrice() {
 
-    const history =
-    JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
+async function updateBestPrice() {
+
+    const history = await loadPriceHistory();
 
     if (history.length === 0) {
 
