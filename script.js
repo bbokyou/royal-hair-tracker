@@ -72,6 +72,8 @@ const audio = new Audio("assets/money.mp3");
 
 const AUTO_REFRESH_TIME = 10 * 60 * 1000; // 10분
 
+let currentFirstSeenTime = null;
+
 const refreshBtn = document.getElementById("refreshBtn");
 
 let soundEnabled =
@@ -263,6 +265,8 @@ document.getElementById("lowest-price").textContent =
 
     await updateTodayRange();
 
+    await updateDuration();
+
 localStorage.setItem(
     "lastLowestPrice",
     lowestItem.auction_price_per_unit
@@ -450,18 +454,43 @@ async function updateTodayRange() {
         📊 변동폭 ${formatGold(diff)}
     `;
 
-     
+}
+
+function getFirstSeenTime(history, currentPrice) {
+
+    let firstSeen = null;
+
+    for (const item of history) {
+
+        if (item.price === currentPrice) {
+
+            firstSeen = item.time;
+            break;
+
+        }
+
+    }
+
+    return firstSeen;
 
 }
-function updateDuration() {
-    const firstSeenTime = localStorage.getItem("firstSeenTime");
 
-    if (!firstSeenTime) {
+async function updateDuration() {
+
+    const history = await loadPriceHistory();
+
+    const currentPrice = history[history.length - 1].price;
+
+currentFirstSeenTime =
+    getFirstSeenTime(history, currentPrice);
+
+    if (!currentFirstSeenTime) {
         document.getElementById("duration").textContent = "-";
         return;
     }
 
-    const firstSeenDate = new Date(firstSeenTime);
+
+    const firstSeenDate = new Date(currentFirstSeenTime);
     const now = new Date();
 
     const diffMs = now - firstSeenDate;
@@ -471,9 +500,9 @@ function updateDuration() {
     const days = Math.floor(diffMinutes / 1440);
     const hours = Math.floor((diffMinutes % 1440) / 60);
     const minutes = diffMinutes % 60;
-        document.getElementById("duration").textContent =
-        `${days}일 ${hours}시간 ${minutes}분`;
 
+    document.getElementById("duration").textContent =
+        `${days}일 ${hours}시간 ${minutes}분`;
 
 }
 
