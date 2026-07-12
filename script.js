@@ -93,6 +93,8 @@ async function migrateBestPrice() {
         return;
     }
 
+    console.log(history);
+
     const bestItem = history.reduce((best, item) => {
 
     return item.price < best.price
