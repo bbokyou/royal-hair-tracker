@@ -85,25 +85,13 @@ async function saveBestPrice(
 
 async function saveLastPrice(price) {
 
-    try {
-
-        console.log("lastPrice 저장 시도", price);
-
-        await setDoc(
-            doc(db, "stats", "lastPrice"),
-            {
-                price: price,
-                time: new Date().toISOString()
-            }
-        );
-
-        console.log("lastPrice 저장 완료");
-
-    } catch (e) {
-
-        console.error("lastPrice 저장 실패", e);
-
-    }
+    await setDoc(
+        doc(db, "stats", "lastPrice"),
+        {
+            price: price,
+            time: new Date().toISOString()
+        }
+    );
 
 }
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
@@ -241,38 +229,34 @@ currentPrice = Number(lowestItem.auction_price_per_unit);
 const previousPrice = Number(savedPrice);
 
 // 현재 가격 상태 표시
-if (!savedPrice) {
-    status.textContent = "👋 첫 기록입니다!";
+if (previousPrice === null) {
+
+    status.textContent = "😐 흠 아직 그대로군.";
+
 }
 else if (currentPrice < previousPrice) {
 
     const diff = previousPrice - currentPrice;
 
-status.innerHTML = `
-    🔥 끼얏호우 더 싸졌다!<br>
-    ▼ ${formatGold(diff)}
-`;
+    status.innerHTML = `
+        🔥 끼얏호우 더 싸졌다!<br>
+        ▼ ${formatGold(diff)}
+    `;
+
 }
 else if (currentPrice > previousPrice) {
 
     const diff = currentPrice - previousPrice;
 
-status.innerHTML = `
-    😭 악 가격 오름...<br>
-    ▲ ${formatGold(diff)}
-`;
+    status.innerHTML = `
+        😭 악 가격 오름...<br>
+        ▲ ${formatGold(diff)}
+    `;
+
 }
 else {
+
     status.textContent = "😐 흠 아직 그대로군.";
-}
-
-// 최저가가 바뀌면 최초 발견 시간 갱신
-if (!savedPrice || currentPrice !== previousPrice) {
-
-    localStorage.setItem(
-        "firstSeenTime",
-        new Date().toISOString()
-    );
 
 }
 
