@@ -60,6 +60,34 @@ async function savePriceHistoryToFirestore(price) {
 
 }
 
+async function migratePriceHistory() {
+
+    const history =
+        JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
+
+    if (history.length === 0) {
+
+        console.log("마이그레이션할 데이터 없음");
+        return;
+
+    }
+
+    for (const item of history) {
+
+        await addDoc(
+            collection(db, "priceHistory"),
+            {
+                price: item.price,
+                time: item.time
+            }
+        );
+
+    }
+
+    console.log(`✅ ${history.length}개 마이그레이션 완료`);
+
+}
+
 
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
@@ -501,6 +529,8 @@ loadPriceHistory().then(history => {
     console.log("Firestore:", history);
 
 });
+
+migratePriceHistory();
 
 loadAuction();
 
