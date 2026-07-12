@@ -83,29 +83,6 @@ async function saveBestPrice(
 
 }
 
-async function migrateBestPrice() {
-
-    const history = await loadPriceHistory();
-
-    if (history.length === 0) {
-        return;
-    }
-
-    const bestItem = history.reduce((best, item) => {
-
-    return item.price < best.price
-        ? item
-        : best;
-
-});
-
-await saveBestPrice(
-    bestItem.price,
-    bestItem.time
-);
-
-}
-
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
 let cachedHistory = [];
