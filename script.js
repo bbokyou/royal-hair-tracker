@@ -291,10 +291,6 @@ localStorage.setItem(
     lowestItem.auction_price_per_unit
 );
 
-const firstSeenTime = localStorage.getItem("firstSeenTime");
-
-document.getElementById("first-seen").textContent =
-    new Date(firstSeenTime).toLocaleString("ko-KR");
     document.getElementById("last-update").textContent =
     "🟢 마지막 조회 : " + new Date().toLocaleTimeString("ko-KR");
     refreshBtn.disabled = false;
@@ -511,17 +507,16 @@ async function updateDuration() {
     return;
 }
 
-    console.log("history 마지막 가격:", currentPrice);
-    console.log("찾아낸 최초 발견:", getFirstSeenTime(history, currentPrice));
-
 currentFirstSeenTime =
     getFirstSeenTime(history, currentPrice);
 
-    if (!currentFirstSeenTime) {
-        document.getElementById("duration").textContent = "-";
-        return;
-    }
+if (!currentFirstSeenTime) {
+    document.getElementById("duration").textContent = "-";
+    return;
+}
 
+document.getElementById("first-seen").textContent =
+    new Date(currentFirstSeenTime).toLocaleString("ko-KR");
 
     const firstSeenDate = new Date(currentFirstSeenTime);
     const now = new Date();
@@ -565,7 +560,6 @@ loadAuction();
 
 refreshBtn.addEventListener("click", loadAuction);
 
-updateDuration();
 setInterval(updateDuration, 1000);
 
 setInterval(loadAuction, AUTO_REFRESH_TIME);
