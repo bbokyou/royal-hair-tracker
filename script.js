@@ -37,6 +37,8 @@ history.sort((a, b) => {
 
 });
 
+cachedHistory = history;
+
 console.log(history);
 
 return history;
@@ -68,6 +70,7 @@ async function savePriceHistoryToFirestore(price) {
 
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
+let cachedHistory = [];
 const audio = new Audio("assets/money.mp3");
 
 const AUTO_REFRESH_TIME = 10 * 60 * 1000; // 10분
@@ -477,7 +480,12 @@ function getFirstSeenTime(history, currentPrice) {
 
 async function updateDuration() {
 
-    const history = await loadPriceHistory();
+    const history = cachedHistory;
+
+    if (history.length === 0) {
+    document.getElementById("duration").textContent = "-";
+    return;
+}
 
     const currentPrice = history[history.length - 1].price;
 
