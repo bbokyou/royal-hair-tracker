@@ -3,7 +3,9 @@ import {
     getFirestore,
     collection,
     addDoc,
-    getDocs
+    getDocs,
+    deleteDoc,
+    doc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDkZU4AOkAPmIQVx7L0vg1w3X3jRBFaMYg",
@@ -60,6 +62,38 @@ async function savePriceHistoryToFirestore(price) {
 
 }
 
+async function removeDuplicatePriceHistory() {
+
+    const snapshot = await getDocs(
+        collection(db, "priceHistory")
+    );
+
+    const seen = new Set();
+
+    let removed = 0;
+
+    for (const document of snapshot.docs) {
+
+        const data = document.data();
+
+        const key = `${data.price}_${data.time}`;
+
+        if (seen.has(key)) {
+
+            await deleteDoc(doc(db, "priceHistory", document.id));
+            removed++;
+
+        } else {
+
+            seen.add(key);
+
+        }
+
+    }
+
+    console.log(`🧹 중복 ${removed}개 삭제 완료`);
+
+}
 
 const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
@@ -513,3 +547,5 @@ updateDuration();
 setInterval(updateDuration, 1000);
 
 setInterval(loadAuction, AUTO_REFRESH_TIME);
+
+removeDuplicatePriceHistory();
