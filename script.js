@@ -4,6 +4,7 @@ import {
     collection,
     addDoc,
     getDocs,
+    getDoc,
     doc,
     setDoc
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
@@ -348,23 +349,21 @@ refreshBtn.textContent = "🔄 지금 조회";
 
 async function updateBestPrice() {
 
-    const history = await loadPriceHistory();
+    const snapshot = await getDoc(
+    doc(db, "stats", "bestPrice")
+);
 
-    if (history.length === 0) {
+if (!snapshot.exists()) {
 
     document.getElementById("best-price").textContent = "-";
     return;
 
 }
 
-const bestPrice = Math.min(
-    ...history.map(item => item.price)
-);
+const bestPrice = snapshot.data().price;
 
 document.getElementById("best-price").textContent =
     formatGold(bestPrice);
-
-    const currentPrice = history[history.length - 1].price;
 
 const diff = currentPrice - bestPrice;
 
@@ -592,13 +591,7 @@ function formatGold(price) {
 
 }
 
-(async () => {
-
-    await migrateBestPrice();
-
-    //await loadAuction();
-
-})();
+loadAuction();
 
 refreshBtn.addEventListener("click", loadAuction);
 
