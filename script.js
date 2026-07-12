@@ -2,7 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.16.0/fireba
 import {
     getFirestore,
     collection,
-    addDoc
+    addDoc,
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDkZU4AOkAPmIQVx7L0vg1w3X3jRBFaMYg",
@@ -35,6 +36,25 @@ async function testFirestore() {
         console.error("저장 실패!", e);
 
     }
+    
+
+}
+
+async function loadPriceHistory() {
+
+    const snapshot = await getDocs(
+        collection(db, "priceHistory")
+    );
+
+    const history = [];
+
+    snapshot.forEach(doc => {
+
+        history.push(doc.data());
+
+    });
+
+    console.log(history);
 
 }
 
@@ -472,6 +492,8 @@ function formatGold(price) {
 }
 
 testFirestore();
+
+loadPriceHistory();
 
 loadAuction();
 
