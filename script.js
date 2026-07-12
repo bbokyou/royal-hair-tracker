@@ -3,9 +3,7 @@ import {
     getFirestore,
     collection,
     addDoc,
-    getDocs,
-    deleteDoc,
-    doc
+    getDocs
 } from "https://www.gstatic.com/firebasejs/12.16.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyDkZU4AOkAPmIQVx7L0vg1w3X3jRBFaMYg",
@@ -29,13 +27,19 @@ async function loadPriceHistory() {
 
     snapshot.forEach(doc => {
 
-        history.push(doc.data());
+    history.push(doc.data());
 
-    });
+});
 
-    console.log(history);
+history.sort((a, b) => {
 
-    return history;
+    return new Date(a.time) - new Date(b.time);
+
+});
+
+console.log(history);
+
+return history;
 
 }
 
@@ -59,39 +63,6 @@ async function savePriceHistoryToFirestore(price) {
         console.error("❌ Firestore 저장 실패", e);
 
     }
-
-}
-
-async function removeDuplicatePriceHistory() {
-
-    const snapshot = await getDocs(
-        collection(db, "priceHistory")
-    );
-
-    const seen = new Set();
-
-    let removed = 0;
-
-    for (const document of snapshot.docs) {
-
-        const data = document.data();
-
-        const key = `${data.price}_${data.time}`;
-
-        if (seen.has(key)) {
-
-            await deleteDoc(doc(db, "priceHistory", document.id));
-            removed++;
-
-        } else {
-
-            seen.add(key);
-
-        }
-
-    }
-
-    console.log(`🧹 중복 ${removed}개 삭제 완료`);
 
 }
 
@@ -288,9 +259,9 @@ document.getElementById("lowest-price").textContent =
 
     updateBestPrice();
 
-    renderPriceHistory();
+    await renderPriceHistory();
 
-updateTodayRange();
+    updateTodayRange();
 
 localStorage.setItem(
     "lastLowestPrice",
@@ -395,10 +366,9 @@ if (history.length > 100) {
     );
 }
 
-function renderPriceHistory() {
+async function renderPriceHistory() {
 
-    const history =
-        JSON.parse(localStorage.getItem(PRICE_LOG_KEY) ?? "[]");
+    const history = await loadPriceHistory();
 
     const container = document.getElementById("price-history");
 
@@ -530,13 +500,6 @@ function formatGold(price) {
 
 }
 
-loadPriceHistory().then(history => {
-
-    console.log("Firestore:", history);
-
-});
-
-
 loadAuction();
 
 refreshBtn.addEventListener("click", loadAuction);
@@ -547,5 +510,3 @@ updateDuration();
 setInterval(updateDuration, 1000);
 
 setInterval(loadAuction, AUTO_REFRESH_TIME);
-
-removeDuplicatePriceHistory();
