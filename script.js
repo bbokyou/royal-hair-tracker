@@ -94,7 +94,7 @@ async function saveLastPrice(price) {
     );
 
 }
-const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b7328932f2cbd9f0fb7f771ff5f7a0a87be3efe8d04e6d233bd35cf2fabdeb93fb0d";
+const API_KEY = "test_93e40beacb1a3d3f59a5e0c5e736b732357c69bee861c18cb083f99069beaf91efe8d04e6d233bd35cf2fabdeb93fb0d";
 const PRICE_LOG_KEY = "priceHistory";
 let cachedHistory = [];
 const audio = new Audio("assets/money.mp3");
@@ -155,7 +155,7 @@ soundBtn.addEventListener("click", async () => {
 
 const BASE_URL =
   "https://open.api.nexon.com/mabinogi/v1/auction/keyword-search?keyword=" +
-  encodeURIComponent("로얄 소사이어티 스타일 헤어 뷰티 쿠폰(여성용)(1회 거래 가능)");
+  encodeURIComponent("스페셜 아리아 실프 웨어(여성용)");
 
   if ("Notification" in window) {
     Notification.requestPermission();
