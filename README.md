@@ -1,2 +1,2 @@
-# royal-hair-tracker
-mabinogi hair coupon tracker
+# item-tracker
+mabinogi item tracker
